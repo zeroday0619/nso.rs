@@ -12,3 +12,4 @@ license = "MPL-2.0"
 reqwest = { version = "0.11", features = ["json", "blocking"] }
 serde = { version = "1.0.162", features = ["derive"] }
 regex = { version = "1.8.1" }
+soup = { version = "0.5.1" }
