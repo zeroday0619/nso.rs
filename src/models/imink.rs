@@ -12,7 +12,7 @@ pub struct RequestBody {
 
 #[derive(Deserialize)]
 pub struct Imink {
-    pub(crate) f: Box<str>,
-    pub(crate) request_id: Box<str>,
+    pub(crate) f: String,
+    pub(crate) request_id: String,
     pub(crate) timestamp: u32,
 }

@@ -1,16 +1,15 @@
+use crate::models::nintendo::metadata::NSOAppVersion;
 use reqwest::header::USER_AGENT;
 use reqwest::header::ACCEPT_ENCODING;
 use reqwest::Error;
 use soup::prelude::*;
+
 
 trait GetNsoAppVersion {
     fn init(&mut self);
     fn get_app_version(&self) -> String;
 }
 
-struct NSOAppVersion {
-    pub(crate) url: String,
-}
 
 impl GetNsoAppVersion for NSOAppVersion {
     fn init(&mut self) {
