@@ -2,10 +2,10 @@ pub(crate) mod models;
 pub(crate) mod imink;
 pub(crate) mod nintendo;
 pub(crate) mod utils;
-
 use imink::mAPI;
 use crate::imink::IminkInterface;
 use crate::nintendo::metadata::METADATA;
+
 
 fn main() {
     let mut imink_api = mAPI { token: "".to_string(), step: 1 };
@@ -23,4 +23,5 @@ fn main() {
     }
     let meta = String::znca_user_agent();
     println!("{:?}", meta.to_string());
+
 }
