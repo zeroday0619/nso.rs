@@ -35,8 +35,8 @@ impl NSOLoginInterface for NSOLogin {
             Ok(_imink) => {
                 self.imink_nso = Option::from(_imink);
             }
-            _ => {
-                panic!("imink error!");
+            Err(e) => {
+                panic!("{e:?}");
             }
         };
 

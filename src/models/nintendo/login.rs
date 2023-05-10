@@ -88,7 +88,7 @@ pub struct UserInfo {
 pub struct Parameter {
     pub(crate) f: String,
     pub(crate) na_id_token: String,
-    pub(crate) timestamp: u32,
+    pub(crate) timestamp: u64,
     pub(crate) request_id: String,
     pub(crate) na_country: String,
     pub(crate) na_birthday: String,

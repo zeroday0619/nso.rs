@@ -14,9 +14,11 @@ fn main() {
     match res {
         Ok(_imink) => {
             println!("{:?}", _imink.f);
+            println!("{:?}", _imink.timestamp);
+            println!("{:?}", _imink.request_id);
         }
-        _ => {
-            println!("ERROR");
+        Err(e) => {
+            println!("{e:?}");
         }
     }
     let meta = String::znca_user_agent();

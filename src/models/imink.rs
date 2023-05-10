@@ -14,5 +14,5 @@ pub struct RequestBody {
 pub struct Imink {
     pub(crate) f: String,
     pub(crate) request_id: String,
-    pub(crate) timestamp: u32,
+    pub(crate) timestamp: u64,
 }
