@@ -4,9 +4,8 @@ pub(crate) mod nintendo;
 pub(crate) mod utils;
 
 use imink::mAPI;
-use nintendo::metadata::NSOAppVersion;
 use crate::imink::IminkInterface;
-use crate::nintendo::metadata::get_nso_app_version;
+use crate::nintendo::metadata::METADATA;
 
 fn main() {
     let mut imink_api = mAPI { token: "".to_string(), step: 1 };
@@ -20,8 +19,6 @@ fn main() {
             println!("ERROR");
         }
     }
-
-    let mut nso_app = NSOAppVersion { url: "https://apps.apple.com/us/app/nintendo-switch-online/id1234806557".parse().unwrap() };
-    let res = nso_app.get_app_version();
-    println!("{:?}", res.as_str());
+    let meta = String::znca_user_agent();
+    println!("{:?}", meta.to_string());
 }

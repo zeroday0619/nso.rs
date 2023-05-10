@@ -3,16 +3,16 @@ use reqwest::header::ACCEPT_ENCODING;
 use reqwest::Error;
 use soup::prelude::*;
 
-pub trait get_nso_app_version {
+trait GetNsoAppVersion {
     fn init(&mut self);
     fn get_app_version(&self) -> String;
 }
 
-pub struct NSOAppVersion {
+struct NSOAppVersion {
     pub(crate) url: String,
 }
 
-impl get_nso_app_version for NSOAppVersion {
+impl GetNsoAppVersion for NSOAppVersion {
     fn init(&mut self) {
         self.url = self.url.parse().unwrap();
     }
@@ -26,16 +26,34 @@ impl get_nso_app_version for NSOAppVersion {
     }
 }
 
-trait METADATA {
-    fn ZNCA_PLATFORM() -> &'static str;
-    fn ZNCA_PLATFORM_VERSION() -> &'static str;
+pub trait METADATA {
+    fn znca_platform() ->  String;
+    fn znca_platform_version() -> String;
+    fn znca_version() -> String;
+    fn znca_user_agent() -> String;
 }
 
 impl METADATA for String {
-    fn ZNCA_PLATFORM() -> &'static str {
-        return "IOS"
+    fn znca_platform() -> String {
+        return "IOS".to_string();
     }
-    fn ZNCA_PLATFORM_VERSION() -> &'static str {
-        return "8.0.0"
+    fn znca_platform_version() -> String {
+        return "8.0.0".to_string();
+    }
+    fn znca_version() -> String {
+        let mut nsoapp = NSOAppVersion { url: "https://apps.apple.com/us/app/nintendo-switch-online/id1234806557".parse().unwrap() };
+        nsoapp.init();
+        return nsoapp.get_app_version();
+    }
+    fn znca_user_agent() -> String {
+        let mut user_agent = String::new();
+        user_agent.push_str("com.nintendo.znca/");
+        user_agent.push_str(&*String::znca_version());
+        user_agent.push_str("(");
+        user_agent.push_str(&*String::znca_platform());
+        user_agent.push_str("/");
+        user_agent.push_str(&*String::znca_platform_version());
+        user_agent.push_str(")");
+        return user_agent;
     }
 }
