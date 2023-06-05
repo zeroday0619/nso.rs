@@ -34,3 +34,27 @@ pub struct PayloadAuth {
     pub session_token_code_challenge_method: String,
     pub theme: String,
 }
+
+/*
+    "client_id": self.client_id,
+    "session_token_code": session_token_code,
+    "session_token_code_verifier": auth_code_verifier.replace(b"=", b""),
+*/
+
+pub struct SessionTokenPayload {
+    pub client_id: String,
+    pub session_token_code: String,
+    pub session_token_code_verifier: String,
+}
+
+/*
+    "client_id": self.client_id,
+    "grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer-session-token",
+    "session_token": session_token,
+*/
+
+pub struct ServiceTokenPayload {
+    pub client_id: String,
+    pub grant_type: String,
+    pub session_token: String,
+}

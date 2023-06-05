@@ -2,7 +2,7 @@ use getrandom::getrandom;
 use base64::{Engine as _, engine::general_purpose};
 pub use crate::models::nintendo::nsa::NintendoSwitchAccount;
 use sha256::digest;
-use crate::models::nintendo::nsa::PayloadAuth;
+use crate::models::nintendo::nsa::{PayloadAuth, ServiceTokenPayload, SessionTokenPayload};
 
 impl NSA for NintendoSwitchAccount {
     fn init(&mut self) {
@@ -40,6 +40,7 @@ impl NSA for NintendoSwitchAccount {
         )
     }
     fn payload_auth(&mut self) -> PayloadAuth {
+        // Get payload for Nintendo Switch Online authorization
         return PayloadAuth {
             state: self.state.clone().unwrap(),
             redirect_uri: format!("npf{}://auth", self.client_id.clone().unwrap()),
@@ -51,9 +52,28 @@ impl NSA for NintendoSwitchAccount {
             theme: "login_form".to_string(),
         }
     }
+    fn session_token_payload(&mut self, session_token_code: &str, auth_code_verifier: &str) -> SessionTokenPayload {
+        // Get session_token_code payload for Nintendo Switch Online authorization
+        return SessionTokenPayload {
+            client_id: self.client_id.clone().unwrap(),
+            session_token_code: session_token_code.to_string(),
+            session_token_code_verifier: auth_code_verifier.replace("=", ""),
+        }
+
+    }
+    fn service_token_payload(&mut self, session_token: &str) -> ServiceTokenPayload {
+        // Get service_token payload for Nintendo Switch Online authorization
+        return ServiceTokenPayload {
+            client_id: self.client_id.clone().unwrap(),
+            grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer-session-token".to_string(),
+            session_token: session_token.to_string(),
+        }
+    }
 }
 
 pub trait NSA {
     fn init(&mut self);
     fn payload_auth(&mut self) -> PayloadAuth;
+    fn session_token_payload(&mut self, session_token_code: &str, auth_code_verifier: &str) -> SessionTokenPayload;
+    fn service_token_payload(&mut self, session_token: &str) -> ServiceTokenPayload;
 }
