@@ -1,7 +1,8 @@
 use getrandom::getrandom;
 use base64::{Engine as _, engine::general_purpose};
-use crate::models::nintendo::nsa::NintendoSwitchAccount;
+pub use crate::models::nintendo::nsa::NintendoSwitchAccount;
 use sha256::digest;
+use crate::models::nintendo::nsa::PayloadAuth;
 
 impl NSA for NintendoSwitchAccount {
     fn init(&mut self) {
@@ -38,8 +39,21 @@ impl NSA for NintendoSwitchAccount {
             )
         )
     }
+    fn payload_auth(&mut self) -> PayloadAuth {
+        return PayloadAuth {
+            state: self.state.clone().unwrap(),
+            redirect_uri: format!("npf{}://auth", self.client_id.clone().unwrap()),
+            client_id: self.client_id.clone().unwrap(),
+            scope: "openid user user.birthday user.mii user.screenName".to_string(),
+            response_type: "session_token_code".to_string(),
+            session_token_code_challenge: self.authCodeChallenge.clone().unwrap().replace("=", ""),
+            session_token_code_challenge_method: "S256".to_string(),
+            theme: "login_form".to_string(),
+        }
+    }
 }
 
-trait NSA {
+pub trait NSA {
     fn init(&mut self);
+    fn payload_auth(&mut self) -> PayloadAuth;
 }
